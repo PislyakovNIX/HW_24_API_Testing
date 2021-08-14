@@ -1,7 +1,9 @@
+import deserialization.ResponseForDeserializationItem;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -93,10 +95,11 @@ public class RestAssuredTests {
                 .when()
                 .get("http://jsonplaceholder.typicode.com/users");
 
-        //TODO падает на этой строчке, не могу разобраться почему
-        ResponseForDeserialization responseForDeserialization = response.as(ResponseForDeserialization.class);
+        ResponseForDeserializationItem[] responseForDeserialization = response.as(ResponseForDeserializationItem[].class);
 
         //Для эксперимента повыводим данные из объекта
-        System.out.println("Name = " + responseForDeserialization.getResponseForDeserialization().get(0).getName());
+        System.out.println("Name = " + responseForDeserialization[0].getName());
+        System.out.println("lat = " + responseForDeserialization[0].getAddress().getGeo().getLat());
+        System.out.println("company - catchPhrase = " + responseForDeserialization[0].getCompany().getCatchPhrase());
     }
 }
